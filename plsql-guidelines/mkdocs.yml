@@ -1,0 +1,67 @@
+site_name: FreePlSqlToolkit Guidelines
+site_description: PL/SQL & SQL coding guidelines for the FreePlSqlToolkit project
+site_url: https://example.com/freeplsqltoolkit/guidelines/
+repo_url: https://github.com/karlkauc/FreePlSqlToolkit
+repo_name: FreePlSqlToolkit
+docs_dir: docs
+copyright: Copyright &copy; 2026 Karl Kauc — Apache License 2.0
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Style:
+    - Identifiers: style/identifiers.md
+    - Naming: style/naming.md
+    - Formatting: style/formatting.md
+  - Language:
+    - SQL Usage: language/sql-usage.md
+    - Exceptions: language/exceptions.md
+    - Control Flow: language/control-flow.md
+  - Design:
+    - Packages: design/packages.md
+    - Transactions: design/transactions.md
+  - Performance:
+    - Bind Variables: performance/bind-variables.md
+  - Rule Mapping: rules-mapping.md

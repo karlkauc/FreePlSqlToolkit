@@ -1,0 +1,27 @@
+.gradle/
+build/
+out/
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.log
+.DS_Store
+local.properties
+gradle-app.setting
+!gradle-wrapper.jar
+.kotlin/
+
+# Eclipse / JDT LS workspace
+.classpath
+.project
+.settings/
+
+# Claude Code harness state
+.claude/
+
+# plsql-guidelines (MkDocs)
+plsql-guidelines/.venv/
+plsql-guidelines/site/
+__pycache__/

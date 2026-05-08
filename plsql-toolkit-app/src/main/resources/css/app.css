@@ -1,0 +1,20 @@
+.section-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-text-fill: -color-fg-muted;
+}
+
+.editor-pane {
+    -fx-background-color: -color-bg-default;
+}
+
+.lint-pane {
+    -fx-background-color: -color-bg-subtle;
+}
+
+.status-bar {
+    -fx-background-color: -color-bg-subtle;
+    -fx-border-color: -color-border-default transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-font-size: 11px;
+}
