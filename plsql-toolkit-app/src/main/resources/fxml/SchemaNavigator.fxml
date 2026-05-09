@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="root" text="Schema Navigator" expanded="true" animated="false"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.fxt.freeplsql.app.ui.navigator.SchemaNavigatorController">
+    <content>
+        <VBox>
+            <TreeView fx:id="tree" VBox.vgrow="ALWAYS" prefHeight="320" showRoot="false"/>
+        </VBox>
+    </content>
+</TitledPane>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="root" text="Connections" expanded="true" animated="false"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.fxt.freeplsql.app.ui.connection.ConnectionSidebarController">
+    <content>
+        <VBox spacing="0">
+            <ListView fx:id="profileList" VBox.vgrow="ALWAYS" prefHeight="240"/>
+            <ToolBar>
+                <padding><Insets top="2" right="4" bottom="2" left="4"/></padding>
+                <Button fx:id="addButton" text="+ Add"/>
+                <Button fx:id="editButton" text="Edit"/>
+                <Button fx:id="deleteButton" text="Delete"/>
+            </ToolBar>
+        </VBox>
+    </content>
+</TitledPane>

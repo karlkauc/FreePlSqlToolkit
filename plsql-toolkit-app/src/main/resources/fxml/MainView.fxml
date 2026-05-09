@@ -1,95 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" prefHeight="750.0" prefWidth="1100.0"
+<BorderPane fx:id="root" prefHeight="800.0" prefWidth="1280.0"
             xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.fxt.freeplsql.app.MainController">
+            fx:controller="org.fxt.freeplsql.app.ui.WorkspaceController">
     <top>
-        <VBox>
-            <MenuBar>
-                <Menu text="File">
-                    <MenuItem text="Open…" onAction="#onOpen" accelerator="Shortcut+O"/>
-                    <MenuItem text="Save"  onAction="#onSave" accelerator="Shortcut+S"/>
-                    <MenuItem text="Save As…" onAction="#onSaveAs"/>
-                    <SeparatorMenuItem/>
-                    <MenuItem text="Exit"  onAction="#onExit"/>
-                </Menu>
-                <Menu text="View">
-                    <MenuItem text="Toggle Theme" onAction="#onToggleTheme" accelerator="Shortcut+T"/>
-                </Menu>
-                <Menu text="Lint">
-                    <MenuItem text="Run Lint Now" onAction="#onRunLint" accelerator="Shortcut+L"/>
-                </Menu>
-            </MenuBar>
-            <ToolBar>
-                <Button text="Open"  onAction="#onOpen"/>
-                <Button text="Save"  onAction="#onSave"/>
-                <Region HBox.hgrow="ALWAYS" prefWidth="20"/>
-                <Button text="Run Lint" onAction="#onRunLint"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Theme"  onAction="#onToggleTheme"/>
-            </ToolBar>
-        </VBox>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="Open File…" onAction="#onOpenFile" accelerator="Shortcut+O"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Exit" onAction="#onExit"/>
+            </Menu>
+            <Menu text="Edit"/>
+            <Menu text="View">
+                <MenuItem text="Toggle Theme" onAction="#onToggleTheme" accelerator="Shortcut+T"/>
+            </Menu>
+            <Menu text="Connections"/>
+            <Menu text="Tools">
+                <MenuItem text="DB Search…" onAction="#onDbSearch" accelerator="Shortcut+Shift+F"/>
+                <MenuItem text="Metrics…" onAction="#onMetrics"/>
+                <MenuItem text="Invalid Objects…" onAction="#onInvalidObjects"/>
+                <MenuItem text="Schema Diff…" onAction="#onSchemaDiff"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Snapshot to Git…" onAction="#onSnapshot"/>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="About FreePlSqlToolkit" onAction="#onAbout"/>
+            </Menu>
+        </MenuBar>
     </top>
+    <left>
+        <VBox prefWidth="280.0" styleClass="sidebar">
+            <Accordion fx:id="sidebarAccordion" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
     <center>
-        <TabPane>
-            <Tab text="Editor" closable="false">
-                <SplitPane orientation="VERTICAL" dividerPositions="0.7">
-                    <StackPane fx:id="editorPane" styleClass="editor-pane"/>
-                    <VBox styleClass="lint-pane">
-                        <Label text="Lint Issues" styleClass="section-title">
-                            <padding><Insets top="6" right="10" bottom="4" left="10"/></padding>
-                        </Label>
-                        <TableView fx:id="lintTable" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn fx:id="colSeverity" text="Severity" prefWidth="90"/>
-                                <TableColumn fx:id="colRuleId"   text="Rule" prefWidth="80"/>
-                                <TableColumn fx:id="colLine"     text="Line" prefWidth="60"/>
-                                <TableColumn fx:id="colMessage"  text="Message" prefWidth="800"/>
-                            </columns>
-                        </TableView>
-                    </VBox>
-                </SplitPane>
-            </Tab>
-            <Tab text="Guidelines" closable="false">
-                <VBox>
-                    <Label text="Built-in PL/SQL Coding Rules" styleClass="section-title">
-                        <padding><Insets top="6" right="10" bottom="4" left="10"/></padding>
-                    </Label>
-                    <TableView fx:id="guidelinesTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="guidelineId"       text="ID"       prefWidth="80"/>
-                            <TableColumn fx:id="guidelineName"     text="Name"     prefWidth="280"/>
-                            <TableColumn fx:id="guidelineSeverity" text="Severity" prefWidth="120"/>
-                        </columns>
-                    </TableView>
-                </VBox>
-            </Tab>
-        </TabPane>
+        <TabPane fx:id="workspaceTabs"/>
     </center>
     <bottom>
-        <HBox styleClass="status-bar">
+        <HBox alignment="CENTER_LEFT" styleClass="status-bar">
             <padding><Insets top="4" right="10" bottom="4" left="10"/></padding>
             <Label fx:id="statusLabel" text="Ready."/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Separator orientation="VERTICAL"/>
         </HBox>
     </bottom>
 </BorderPane>

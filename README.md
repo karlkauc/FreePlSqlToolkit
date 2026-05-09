@@ -12,8 +12,9 @@ A free, open-source toolkit for PL/SQL development.
 | `plsql-linter-core`   | Rule engine, 15 built-in rules (`F-1`…`F-15`), custom rules via YAML and Java SPI |
 | `plsql-linter-cli`    | Command-line linter (`plsqllint`) with `text`, `json`, and `sarif` output         |
 | `plsql-db-sync`       | Periodic Oracle DB → Git sync of PL/SQL source (`plsqlsync`)                      |
+| `plsql-app-services`  | Pure-Java service layer for the desktop app (connections, metadata, lint, search, …) |
 | `plsql-guidelines`    | PL/SQL coding guidelines as a static site (MkDocs Material)                       |
-| `plsql-toolkit-app`   | JavaFX desktop app: editor + live lint + guidelines viewer                        |
+| `plsql-toolkit-app`   | JavaFX desktop app: multi-DB analysis workbench (editor, live lint, schema navigator, batch lint, search, metrics, schema diff, snapshot) |
 
 Library-first architecture — every module is usable on its own; the CLIs and
 the desktop app are thin frontends.
@@ -87,13 +88,36 @@ configured Git repository on every interval until you interrupt it.
 ./gradlew :plsql-toolkit-app:run
 ```
 
-Highlights:
+The desktop app is a **multi-database PL/SQL analysis workbench**. On first
+launch it asks for a master password to encrypt the connection-profile file
+(`~/.fpltoolkit/profiles.enc`, AES-256/GCM, PBKDF2-SHA256 with 600 000
+iterations); subsequent starts unlock it.
 
-- PL/SQL editor with syntax highlighting (RichTextFX)
-- Debounced live lint (300 ms after the last keystroke)
-- Lint-issues table with double-click-to-jump
-- Read-only browser of the 15 built-in rules
-- Light / dark theme toggle (AtlantaFX Primer)
+Highlights (v0.2):
+
+- **Multi-connection** — keep several Oracle profiles connected at once
+  (Easy Connect, TNS-Names, Oracle Wallet, Kerberos)
+- **Schema Navigator** — lazy tree of every schema's packages, procedures,
+  functions, triggers, views, and types
+- **Editor tabs** for local files (`.sql`/`.pks`/`.pkb`) *and* read-only DDL
+  tabs for any DB object — both with syntax highlighting and live lint
+- **Batch lint** — right-click any schema → "Lint Schema…", export the
+  report as Markdown, HTML, or SARIF 2.1.0
+- **DB-wide search** — regex or literal pattern over `ALL_SOURCE` across
+  every active connection
+- **Code metrics** — LOC, SLOC, cyclomatic complexity (CCN), and lint-issue
+  count per object, sortable
+- **Cross-references** — "calls" and "called by" tables for any object
+  via `ALL_DEPENDENCIES`
+- **Schema Diff** — pick two connections + schemas, see added / removed /
+  modified objects with unified-diff DDL
+- **Invalid-objects dashboard** — `DBA_ERRORS` (falls back to `USER_ERRORS`)
+  with line, position, and message
+- **DB → Git snapshot** — one-click DDL dump using the existing
+  `plsql-db-sync` engine
+- **Workspace persistence** — re-opens the same local-file tabs and window
+  geometry on the next start (DB tabs reopen after you reconnect)
+- **AtlantaFX Primer** light / dark theme
 
 ## Build and serve the guidelines site
 

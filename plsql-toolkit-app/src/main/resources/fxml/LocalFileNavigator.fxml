@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane fx:id="root" text="Local Files" expanded="false" animated="false"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.fxt.freeplsql.app.ui.navigator.LocalFileNavigatorController">
+    <content>
+        <VBox spacing="0">
+            <ToolBar>
+                <padding><Insets top="2" right="4" bottom="2" left="4"/></padding>
+                <Button fx:id="openFolderButton" text="Open Folder…"/>
+                <Button fx:id="refreshButton" text="Refresh"/>
+            </ToolBar>
+            <Label fx:id="rootLabel" text="No folder selected" styleClass="dialog-hint">
+                <padding><Insets top="3" right="6" bottom="3" left="6"/></padding>
+            </Label>
+            <TreeView fx:id="tree" VBox.vgrow="ALWAYS" prefHeight="240" showRoot="false"/>
+        </VBox>
+    </content>
+</TitledPane>

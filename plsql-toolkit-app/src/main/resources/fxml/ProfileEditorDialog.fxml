@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="12"
+      prefWidth="560">
+    <padding><Insets top="16" right="16" bottom="6" left="16"/></padding>
+
+    <GridPane hgap="10" vgap="8">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" prefWidth="140"/>
+            <ColumnConstraints hgrow="ALWAYS" prefWidth="380"/>
+        </columnConstraints>
+        <Label text="Profile name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="nameField" promptText="My DB" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Connection pool size" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Spinner fx:id="poolSpinner" prefWidth="100" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <TabPane fx:id="authTabs" tabClosingPolicy="UNAVAILABLE">
+
+        <Tab text="Easy Connect">
+            <GridPane hgap="10" vgap="8">
+                <padding><Insets top="14" right="6" bottom="6" left="6"/></padding>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120" prefWidth="140"/>
+                    <ColumnConstraints hgrow="ALWAYS" prefWidth="380"/>
+                </columnConstraints>
+                <Label text="Host" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="ecHost" promptText="db.example.com" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Port" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Spinner fx:id="ecPort" prefWidth="120" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Service name" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="ecService" promptText="XEPDB1" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="Username" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="ecUsername" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label text="Password" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="ecPassword" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            </GridPane>
+        </Tab>
+
+        <Tab text="TNS">
+            <GridPane hgap="10" vgap="8">
+                <padding><Insets top="14" right="6" bottom="6" left="6"/></padding>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120" prefWidth="140"/>
+                    <ColumnConstraints hgrow="ALWAYS" prefWidth="380"/>
+                </columnConstraints>
+                <Label text="TNS alias" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="tnsAlias" promptText="PROD_RW" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Username" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="tnsUsername" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Password" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="tnsPassword" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label styleClass="dialog-hint" wrapText="true"
+                       text="Alias must be defined in tnsnames.ora on $TNS_ADMIN."
+                       GridPane.rowIndex="3" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+            </GridPane>
+        </Tab>
+
+        <Tab text="Wallet">
+            <GridPane hgap="10" vgap="8">
+                <padding><Insets top="14" right="6" bottom="6" left="6"/></padding>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120" prefWidth="140"/>
+                    <ColumnConstraints hgrow="ALWAYS" prefWidth="300"/>
+                    <ColumnConstraints prefWidth="80"/>
+                </columnConstraints>
+                <Label text="TNS alias" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="walletAlias" promptText="DB_HIGH" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2"/>
+                <Label text="Wallet directory" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="walletPath" promptText="/opt/wallets/adb" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Button fx:id="walletBrowseButton" text="Browse…" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <Label text="Username" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="walletUsername" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="2"/>
+                <Label text="Password" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="walletPassword" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="2"/>
+                <Label styleClass="dialog-hint" wrapText="true"
+                       text="Alias is read from the wallet's tnsnames.ora. For Autonomous Database, leave user/password blank if the wallet contains them."
+                       GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="3"/>
+            </GridPane>
+        </Tab>
+
+        <Tab text="Kerberos">
+            <GridPane hgap="10" vgap="8">
+                <padding><Insets top="14" right="6" bottom="6" left="6"/></padding>
+                <columnConstraints>
+                    <ColumnConstraints minWidth="120" prefWidth="140"/>
+                    <ColumnConstraints hgrow="ALWAYS" prefWidth="380"/>
+                </columnConstraints>
+                <Label text="Host" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="kerbHost" promptText="db.example.com" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label text="Port" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Spinner fx:id="kerbPort" prefWidth="120" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Service name" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="kerbService" promptText="ORCL" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="Principal (optional)" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="kerbPrincipal" promptText="user@REALM" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label styleClass="dialog-hint" wrapText="true"
+                       text="Requires krb5.conf and a valid kinit ticket. Leave principal blank to use the default ticket."
+                       GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+            </GridPane>
+        </Tab>
+
+    </TabPane>
+
+    <HBox>
+        <Label fx:id="errorLabel" styleClass="dialog-error" wrapText="true" HBox.hgrow="ALWAYS"/>
+    </HBox>
+</VBox>
