@@ -1,0 +1,51 @@
+/*
+ * App-namespaced design tokens. Layered on top of AtlantaFX `-color-*`.
+ * Light values live on `.root`; dark values are scoped to `.root.dark`
+ * (the `.dark` class is toggled by ThemeManager).
+ */
+
+.root {
+    -fxt-primary:        #C74634;
+    -fxt-primary-hover:  #A53A2A;
+    -fxt-primary-soft:   #FBE9E6;
+
+    -fxt-surface-0:      #FFFFFF;
+    -fxt-surface-1:      #F8FAFC;
+    -fxt-surface-2:      #EEF2F6;
+    -fxt-border:         #E2E8F0;
+
+    -fxt-fg-default:     #0F172A;
+    -fxt-fg-muted:       #64748B;
+
+    -fxt-success:        #16A34A;
+    -fxt-warn:           #D97706;
+    -fxt-danger:         #DC2626;
+    -fxt-info:           #2563EB;
+
+    -fxt-chip-warn-bg:   rgba(217, 119, 6, 0.12);
+    -fxt-chip-danger-bg: rgba(220, 38, 38, 0.12);
+    -fxt-chip-success-bg:rgba(22, 163, 74, 0.12);
+}
+
+.root.dark {
+    -fxt-primary:        #E25C4A;
+    -fxt-primary-hover:  #C74634;
+    -fxt-primary-soft:   #3A1A15;
+
+    -fxt-surface-0:      #0F172A;
+    -fxt-surface-1:      #111827;
+    -fxt-surface-2:      #1B2433;
+    -fxt-border:         #1F2937;
+
+    -fxt-fg-default:     #E5E7EB;
+    -fxt-fg-muted:       #94A3B8;
+
+    -fxt-success:        #22C55E;
+    -fxt-warn:           #F59E0B;
+    -fxt-danger:         #EF4444;
+    -fxt-info:           #60A5FA;
+
+    -fxt-chip-warn-bg:   rgba(245, 158, 11, 0.18);
+    -fxt-chip-danger-bg: rgba(239, 68, 68, 0.18);
+    -fxt-chip-success-bg:rgba(34, 197, 94, 0.18);
+}
