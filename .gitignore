@@ -8,6 +8,7 @@ out/
 .vscode/
 *.log
 .DS_Store
+._*
 local.properties
 gradle-app.setting
 !gradle-wrapper.jar
