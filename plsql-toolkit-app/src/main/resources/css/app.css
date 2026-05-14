@@ -1,50 +1,101 @@
+/*
+ * Base application skin. Maps -fxt-* tokens onto JavaFX/AtlantaFX selectors.
+ * Loaded AFTER tokens.css.
+ */
+
+.root {
+    -fx-font-family: "Inter", "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: -fxt-surface-0;
+    -fx-text-fill: -fxt-fg-default;
+}
+
+/* Menu bar */
+.menu-bar {
+    -fx-background-color: -fxt-surface-1;
+    -fx-border-color: transparent transparent -fxt-border transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Sidebar (Accordion column) */
 .sidebar {
-    -fx-background-color: -color-bg-subtle;
-    -fx-border-color: transparent -color-border-default transparent transparent;
+    -fx-background-color: -fxt-surface-1;
+    -fx-border-color: transparent -fxt-border transparent transparent;
     -fx-border-width: 0 1 0 0;
 }
 
-.status-bar {
-    -fx-background-color: -color-bg-subtle;
-    -fx-border-color: -color-border-default transparent transparent transparent;
-    -fx-border-width: 1 0 0 0;
-    -fx-font-size: 11px;
-}
-
+/* Section title inside accordion panes */
 .section-title {
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-text-fill: -color-fg-muted;
+    -fx-font-weight: 600;
+    -fx-font-size: 11px;
+    -fx-text-fill: -fxt-fg-muted;
+    -fx-padding: 6 10 6 10;
+    -fx-letter-spacing: 0.6;
 }
 
-.editor-pane {
-    -fx-background-color: -color-bg-default;
+/* TitledPane chrome */
+.titled-pane > .title {
+    -fx-background-color: -fxt-surface-2;
+}
+.titled-pane > .content {
+    -fx-background-color: -fxt-surface-1;
+    -fx-border-color: transparent;
 }
 
-.lint-pane {
-    -fx-background-color: -color-bg-subtle;
+/* Status bar */
+.status-bar {
+    -fx-background-color: -fxt-surface-1;
+    -fx-border-color: -fxt-border transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 11px;
+    -fx-spacing: 12;
 }
+.status-bar .separator { -fx-padding: 0 2 0 2; }
+.status-bar .label     { -fx-text-fill: -fxt-fg-muted; }
 
+/* Editor + lint panes — kept as-is, just token-ized */
+.editor-pane { -fx-background-color: -fxt-surface-0; }
+.lint-pane   { -fx-background-color: -fxt-surface-1; }
+
+/* Dialog helpers */
 .dialog-error {
-    -fx-text-fill: -color-danger-fg;
+    -fx-text-fill: -fxt-danger;
     -fx-font-size: 11px;
 }
-
 .dialog-hint {
-    -fx-text-fill: -color-fg-muted;
+    -fx-text-fill: -fxt-fg-muted;
     -fx-font-size: 11px;
     -fx-font-style: italic;
 }
 
+/* Connection dot in sidebar */
 .conn-dot {
-    -fx-text-fill: -color-fg-muted;
+    -fx-text-fill: -fxt-fg-muted;
     -fx-font-size: 14px;
 }
-.conn-dot:connected {
-    -fx-text-fill: -color-success-fg;
-}
+.conn-dot:connected { -fx-text-fill: -fxt-success; }
 
 .connect-button {
     -fx-padding: 2 8 2 8;
     -fx-font-size: 11px;
+}
+
+/* Focus ring (AtlantaFX uses -color-accent-emphasis; we override) */
+.button:focused,
+.text-field:focused,
+.text-area:focused,
+.list-view:focused,
+.tree-view:focused,
+.table-view:focused,
+.tab-pane > .tab-header-area > .headers-region > .tab:selected {
+    -fx-faint-focus-color: transparent;
+}
+
+/* Selected list / tree row uses primary-soft */
+.list-cell:filled:selected,
+.tree-cell:filled:selected,
+.table-row-cell:filled:selected {
+    -fx-background-color: -fxt-primary-soft;
+    -fx-text-fill: -fxt-fg-default;
 }
