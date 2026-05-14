@@ -103,36 +103,55 @@ public final class WorkspaceController {
                 (o, was, now) -> updateStatusForTab(now));
     }
 
+    // Listeners currently attached to the active editor tab.
+    private javafx.beans.value.ChangeListener<Number> activeCaretListener;
+    private javafx.collections.ListChangeListener<org.fxt.freeplsql.app.ui.editor.EditorTab.IssueRow> activeIssuesListener;
+    private org.fxt.freeplsql.app.ui.editor.EditorTab activeEditorTab;
+
     private void updateStatusForTab(javafx.scene.control.Tab tab) {
         if (statusBarController == null) return;
-        if (tab instanceof org.fxt.freeplsql.app.ui.editor.EditorTab et) {
-            int line = et.codeArea().getCurrentParagraph();
-            int col  = et.codeArea().getCaretColumn();
-            statusBarController.setCaret(line, col);
-            int warns = 0, errors = 0;
-            for (var row : et.issueRows()) {
-                if ("ERROR".equalsIgnoreCase(row.getSeverity())) errors++;
-                else warns++;
-            }
-            statusBarController.setLintCounts(warns, errors);
 
-            // Listen to caret changes on this tab
-            et.codeArea().caretPositionProperty().addListener((o, was, now) ->
-                    statusBarController.setCaret(
-                            et.codeArea().getCurrentParagraph(),
-                            et.codeArea().getCaretColumn()));
-            et.issueRows().addListener((javafx.collections.ListChangeListener<? super
-                    org.fxt.freeplsql.app.ui.editor.EditorTab.IssueRow>) change -> {
-                int w = 0, e = 0;
-                for (var r : et.issueRows()) {
-                    if ("ERROR".equalsIgnoreCase(r.getSeverity())) e++; else w++;
-                }
-                statusBarController.setLintCounts(w, e);
-            });
-        } else {
+        // Detach listeners from the previously-active editor tab.
+        if (activeEditorTab != null) {
+            if (activeCaretListener != null) {
+                activeEditorTab.codeArea().caretPositionProperty().removeListener(activeCaretListener);
+            }
+            if (activeIssuesListener != null) {
+                activeEditorTab.issueRows().removeListener(activeIssuesListener);
+            }
+            activeEditorTab = null;
+            activeCaretListener = null;
+            activeIssuesListener = null;
+        }
+
+        if (!(tab instanceof org.fxt.freeplsql.app.ui.editor.EditorTab et)) {
             statusBarController.setCaret(0, 0);
             statusBarController.setLintCounts(0, 0);
+            return;
         }
+
+        activeEditorTab = et;
+        statusBarController.setCaret(et.codeArea().getCurrentParagraph(),
+                et.codeArea().getCaretColumn());
+        applyLintCounts(et);
+
+        activeCaretListener = (o, was, now) ->
+                statusBarController.setCaret(
+                        et.codeArea().getCurrentParagraph(),
+                        et.codeArea().getCaretColumn());
+        et.codeArea().caretPositionProperty().addListener(activeCaretListener);
+
+        activeIssuesListener = change -> applyLintCounts(et);
+        et.issueRows().addListener(activeIssuesListener);
+    }
+
+    private void applyLintCounts(org.fxt.freeplsql.app.ui.editor.EditorTab et) {
+        int warns = 0, errors = 0;
+        for (var r : et.issueRows()) {
+            if ("ERROR".equalsIgnoreCase(r.getSeverity())) errors++;
+            else warns++;
+        }
+        statusBarController.setLintCounts(warns, errors);
     }
 
     /** Re-opens the local-file tabs that were open last session. Called after stage.show(). */

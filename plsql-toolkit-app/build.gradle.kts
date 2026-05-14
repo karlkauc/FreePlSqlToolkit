@@ -16,8 +16,6 @@ dependencies {
     implementation("org.kordamp.ikonli:ikonli-javafx:12.4.0")
     implementation("org.kordamp.ikonli:ikonli-feather-pack:12.4.0")
 
-    testImplementation("org.testfx:testfx-core:4.0.18")
-    testImplementation("org.testfx:testfx-junit5:4.0.18")
     testImplementation("org.testfx:openjfx-monocle:21.0.2")
 }
 
