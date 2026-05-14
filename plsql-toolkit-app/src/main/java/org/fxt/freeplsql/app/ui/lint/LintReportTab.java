@@ -45,7 +45,7 @@ public final class LintReportTab extends Tab {
                         + " · " + report.totalObjects() + " object(s) · "
                         + report.totalIssues() + " issue(s) · "
                         + report.runAt());
-        header.setStyle("-fx-padding: 8 12 4 12; -fx-text-fill: -color-fg-muted;");
+        header.setStyle("-fx-padding: 8 12 4 12; -fx-text-fill: -fxt-fg-muted;");
 
         TableView<Row> table = buildTable();
 
@@ -89,6 +89,15 @@ public final class LintReportTab extends Tab {
         TableColumn<Row, String> sev = new TableColumn<>("Severity");
         sev.setCellValueFactory(new PropertyValueFactory<>("severity"));
         sev.setPrefWidth(80);
+        sev.setCellFactory(col -> new javafx.scene.control.TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); setText(null); return; }
+                setGraphic(org.fxt.freeplsql.app.ui.shell.Chip.forSeverity(item));
+                setText(null);
+            }
+        });
         TableColumn<Row, String> rule = new TableColumn<>("Rule");
         rule.setCellValueFactory(new PropertyValueFactory<>("ruleId"));
         rule.setPrefWidth(70);
