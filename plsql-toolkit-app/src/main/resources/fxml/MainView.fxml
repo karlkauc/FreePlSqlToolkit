@@ -44,9 +44,12 @@
         </MenuBar>
     </top>
     <left>
-        <VBox prefWidth="280.0" styleClass="sidebar">
-            <Accordion fx:id="sidebarAccordion" VBox.vgrow="ALWAYS"/>
-        </VBox>
+        <HBox>
+            <fx:include source="ActivityBar.fxml" fx:id="activityBar"/>
+            <VBox prefWidth="280.0" styleClass="sidebar">
+                <Accordion fx:id="sidebarAccordion" VBox.vgrow="ALWAYS"/>
+            </VBox>
+        </HBox>
     </left>
     <center>
         <TabPane fx:id="workspaceTabs"/>

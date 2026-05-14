@@ -38,6 +38,7 @@ public final class WorkspaceController {
     @FXML private Accordion sidebarAccordion;
     @FXML private TabPane workspaceTabs;
     @FXML private Label statusLabel;
+    @FXML private org.fxt.freeplsql.app.ui.shell.ActivityBarController activityBarController;
 
     private Stage stage;
     private AppContext context;
@@ -58,6 +59,16 @@ public final class WorkspaceController {
         TitledPane files = LocalFileNavigatorController.create(tabManager, stage);
         sidebarAccordion.getPanes().addAll(connections, schema, files);
         sidebarAccordion.setExpandedPane(connections);
+
+        activityBarController.bindSidebar(sidebarAccordion, connections, schema, files);
+        activityBarController.onSearch(this::onDbSearch);
+        activityBarController.onMetrics(this::onMetrics);
+        activityBarController.onInvalid(this::onInvalidObjects);
+        activityBarController.onDiff(this::onSchemaDiff);
+        activityBarController.onTheme(this::onToggleTheme);
+        activityBarController.setDarkIcon(themeManager.isDark());
+        themeManager.darkProperty().addListener((o, was, dark) ->
+                activityBarController.setDarkIcon(dark));
     }
 
     /** Re-opens the local-file tabs that were open last session. Called after stage.show(). */
