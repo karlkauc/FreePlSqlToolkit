@@ -6,6 +6,9 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <TitledPane fx:id="root" text="Local Files" expanded="false" animated="false"
@@ -13,7 +16,11 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.fxt.freeplsql.app.ui.navigator.LocalFileNavigatorController">
     <content>
-        <VBox spacing="0">
+        <VBox fx:id="pane" spacing="0">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="LOCAL FILES" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
             <ToolBar>
                 <padding><Insets top="2" right="4" bottom="2" left="4"/></padding>
                 <Button fx:id="openFolderButton" text="Open Folder…"/>
@@ -22,7 +29,10 @@
             <Label fx:id="rootLabel" text="No folder selected" styleClass="dialog-hint">
                 <padding><Insets top="3" right="6" bottom="3" left="6"/></padding>
             </Label>
-            <TreeView fx:id="tree" VBox.vgrow="ALWAYS" prefHeight="240" showRoot="false"/>
+            <StackPane VBox.vgrow="ALWAYS">
+                <TreeView fx:id="tree" prefHeight="240" showRoot="false"/>
+                <VBox fx:id="emptyState"/>
+            </StackPane>
         </VBox>
     </content>
 </TitledPane>

@@ -32,6 +32,8 @@ public final class LocalFileNavigatorController {
     @FXML private Button openFolderButton;
     @FXML private Button refreshButton;
     @FXML private Label rootLabel;
+    @FXML private javafx.scene.layout.VBox pane;
+    @FXML private javafx.scene.layout.VBox emptyState;
 
     private TabManager tabManager;
     private Stage stage;
@@ -70,6 +72,50 @@ public final class LocalFileNavigatorController {
             if (Files.isRegularFile(p)) {
                 openFile(p);
             }
+        });
+
+        // Empty state
+        org.fxt.freeplsql.app.ui.shell.EmptyState es =
+                org.fxt.freeplsql.app.ui.shell.EmptyState.builder()
+                        .featherIcon(org.kordamp.ikonli.feather.Feather.HARD_DRIVE)
+                        .title("No files yet")
+                        .body("Drop .sql, .pks or .pkb files here, or use Open Folder…")
+                        .action("Open Folder…", () -> openFolderButton.fire())
+                        .build();
+        emptyState.getChildren().setAll(es);
+        Runnable updateEmptyState = () -> {
+            boolean isEmpty = tree.getRoot() == null
+                    || tree.getRoot().getChildren().isEmpty();
+            emptyState.setVisible(isEmpty);
+            emptyState.setManaged(isEmpty);
+            tree.setVisible(!isEmpty);
+            tree.setManaged(!isEmpty);
+        };
+        updateEmptyState.run();
+        tree.getRoot().getChildren().addListener(
+                (javafx.collections.ListChangeListener<? super javafx.scene.control.TreeItem<java.nio.file.Path>>)
+                c -> updateEmptyState.run());
+
+        // Drag-and-drop on the pane
+        pane.setOnDragOver(ev -> {
+            if (ev.getDragboard().hasFiles()) {
+                ev.acceptTransferModes(javafx.scene.input.TransferMode.COPY);
+            }
+            ev.consume();
+        });
+        pane.setOnDragDropped(ev -> {
+            boolean success = false;
+            if (ev.getDragboard().hasFiles()) {
+                for (var f : ev.getDragboard().getFiles()) {
+                    java.nio.file.Path p = f.toPath();
+                    if (java.nio.file.Files.isRegularFile(p) && isPlSqlFile(p)) {
+                        openFile(p);
+                        success = true;
+                    }
+                }
+            }
+            ev.setDropCompleted(success);
+            ev.consume();
         });
     }
 
