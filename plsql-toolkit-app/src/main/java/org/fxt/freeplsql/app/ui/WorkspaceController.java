@@ -79,6 +79,41 @@ public final class WorkspaceController {
         this.statusBarController = new org.fxt.freeplsql.app.ui.shell.StatusBarController(
                 statusConnLabel, statusLintWarn, statusLintError,
                 statusCaretLabel, context.connectionManager());
+
+        workspaceTabs.getSelectionModel().selectedItemProperty().addListener(
+                (o, was, now) -> updateStatusForTab(now));
+    }
+
+    private void updateStatusForTab(javafx.scene.control.Tab tab) {
+        if (statusBarController == null) return;
+        if (tab instanceof org.fxt.freeplsql.app.ui.editor.EditorTab et) {
+            int line = et.codeArea().getCurrentParagraph();
+            int col  = et.codeArea().getCaretColumn();
+            statusBarController.setCaret(line, col);
+            int warns = 0, errors = 0;
+            for (var row : et.issueRows()) {
+                if ("ERROR".equalsIgnoreCase(row.getSeverity())) errors++;
+                else warns++;
+            }
+            statusBarController.setLintCounts(warns, errors);
+
+            // Listen to caret changes on this tab
+            et.codeArea().caretPositionProperty().addListener((o, was, now) ->
+                    statusBarController.setCaret(
+                            et.codeArea().getCurrentParagraph(),
+                            et.codeArea().getCaretColumn()));
+            et.issueRows().addListener((javafx.collections.ListChangeListener<? super
+                    org.fxt.freeplsql.app.ui.editor.EditorTab.IssueRow>) change -> {
+                int w = 0, e = 0;
+                for (var r : et.issueRows()) {
+                    if ("ERROR".equalsIgnoreCase(r.getSeverity())) e++; else w++;
+                }
+                statusBarController.setLintCounts(w, e);
+            });
+        } else {
+            statusBarController.setCaret(0, 0);
+            statusBarController.setLintCounts(0, 0);
+        }
     }
 
     /** Re-opens the local-file tabs that were open last session. Called after stage.show(). */

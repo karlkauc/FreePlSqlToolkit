@@ -23,6 +23,12 @@ public abstract class EditorTab extends Tab {
     protected final TableView<IssueRow> issuesTable = new TableView<>(issueRows);
     protected final LiveLintBinding lintBinding;
 
+    /** Public read access for shell wiring. */
+    public PlSqlCodeArea codeArea() { return codeArea; }
+
+    /** Public read access for shell wiring. */
+    public javafx.collections.ObservableList<IssueRow> issueRows() { return issueRows; }
+
     protected EditorTab(String title, String sourcePath) {
         setText(title);
         configureIssuesTable();
