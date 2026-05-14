@@ -57,9 +57,16 @@
     <bottom>
         <HBox alignment="CENTER_LEFT" styleClass="status-bar">
             <padding><Insets top="4" right="10" bottom="4" left="10"/></padding>
-            <Label fx:id="statusLabel" text="Ready."/>
-            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusConnLabel" text="● no connection"/>
             <Separator orientation="VERTICAL"/>
+            <Label fx:id="statusLintWarn" text="⚠ 0"/>
+            <Label fx:id="statusLintError" text="✕ 0"/>
+            <Separator orientation="VERTICAL"/>
+            <Label fx:id="statusCaretLabel" text="Ln 1, Col 1"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusEncodingLabel" text="UTF-8"/>
+            <Separator orientation="VERTICAL"/>
+            <Label fx:id="statusLabel" text="Ready."/>
         </HBox>
     </bottom>
 </BorderPane>

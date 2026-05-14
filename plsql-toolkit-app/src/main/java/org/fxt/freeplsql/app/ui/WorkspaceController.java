@@ -38,12 +38,18 @@ public final class WorkspaceController {
     @FXML private Accordion sidebarAccordion;
     @FXML private TabPane workspaceTabs;
     @FXML private Label statusLabel;
+    @FXML private Label statusConnLabel;
+    @FXML private Label statusLintWarn;
+    @FXML private Label statusLintError;
+    @FXML private Label statusCaretLabel;
+    @FXML private Label statusEncodingLabel;
     @FXML private org.fxt.freeplsql.app.ui.shell.ActivityBarController activityBarController;
 
     private Stage stage;
     private AppContext context;
     private ThemeManager themeManager;
     private TabManager tabManager;
+    private org.fxt.freeplsql.app.ui.shell.StatusBarController statusBarController;
 
     public void bind(Stage stage, Scene scene, AppContext context) {
         this.stage = stage;
@@ -69,6 +75,10 @@ public final class WorkspaceController {
         activityBarController.setDarkIcon(themeManager.isDark());
         themeManager.darkProperty().addListener((o, was, dark) ->
                 activityBarController.setDarkIcon(dark));
+
+        this.statusBarController = new org.fxt.freeplsql.app.ui.shell.StatusBarController(
+                statusConnLabel, statusLintWarn, statusLintError,
+                statusCaretLabel, context.connectionManager());
     }
 
     /** Re-opens the local-file tabs that were open last session. Called after stage.show(). */
