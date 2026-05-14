@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.fxt.freeplsql.app.ui.WorkspaceController;
+import org.fxt.freeplsql.app.ui.shell.Branding;
+import org.fxt.freeplsql.app.ui.shell.FontLoader;
 import org.fxt.freeplsql.app.ui.startup.StartupSequence;
 import org.fxt.freeplsql.appsvc.connection.ConnectionProfile;
 import org.fxt.freeplsql.appsvc.persistence.WorkspaceState;
@@ -24,6 +26,7 @@ public final class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         applyTheme(context.settings().isDark());
+        FontLoader.loadAll();
 
         List<ConnectionProfile> unlocked = new StartupSequence(context.profileStore()).run();
         if (unlocked == null) {
@@ -72,6 +75,7 @@ public final class MainApp extends Application {
         });
 
         stage.setTitle(APP_NAME);
+        stage.getIcons().addAll(Branding.stageIcons());
         stage.setScene(scene);
         stage.show();
 
