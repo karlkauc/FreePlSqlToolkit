@@ -1,0 +1,12 @@
+Bundled fonts
+=============
+
+Inter (Inter-Regular.ttf, Inter-SemiBold.ttf)
+  © 2016 The Inter Project Authors. https://github.com/rsms/inter
+  Licensed under SIL Open Font License v1.1.
+
+JetBrains Mono (JetBrainsMono-Regular.ttf)
+  © 2020 The JetBrains Mono Project Authors. https://github.com/JetBrains/JetBrainsMono
+  Licensed under SIL Open Font License v1.1.
+
+Full OFL text: https://scripts.sil.org/OFL
