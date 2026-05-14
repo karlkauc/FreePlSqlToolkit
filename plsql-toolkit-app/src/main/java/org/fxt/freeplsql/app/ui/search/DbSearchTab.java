@@ -60,7 +60,7 @@ public final class DbSearchTab extends Tab {
         VBox layout = new VBox(controls, table, statusLabel);
         VBox.setVgrow(table, Priority.ALWAYS);
         statusLabel.setPadding(new Insets(4, 8, 4, 8));
-        statusLabel.setStyle("-fx-text-fill: -color-fg-muted;");
+        statusLabel.setStyle("-fx-text-fill: -fxt-fg-muted;");
         setContent(layout);
 
         searchButton.setOnAction(e -> runSearch());
@@ -81,6 +81,28 @@ public final class DbSearchTab extends Tab {
         TableColumn<Row, String> type = new TableColumn<>("Type");
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
         type.setPrefWidth(110);
+        type.setCellFactory(col -> new javafx.scene.control.TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setText(null); setGraphic(null); return; }
+                setText(item);
+                org.kordamp.ikonli.feather.Feather glyph = switch (item.toUpperCase()) {
+                    case "PACKAGE", "PACKAGE BODY" -> org.kordamp.ikonli.feather.Feather.PACKAGE;
+                    case "FUNCTION", "PROCEDURE"   -> org.kordamp.ikonli.feather.Feather.PLAY;
+                    case "VIEW"                    -> org.kordamp.ikonli.feather.Feather.EYE;
+                    case "TABLE"                   -> org.kordamp.ikonli.feather.Feather.GRID;
+                    case "TRIGGER"                 -> org.kordamp.ikonli.feather.Feather.ZAP;
+                    case "TYPE", "TYPE BODY"       -> org.kordamp.ikonli.feather.Feather.BOX;
+                    default                        -> org.kordamp.ikonli.feather.Feather.FILE;
+                };
+                org.kordamp.ikonli.javafx.FontIcon fi =
+                        new org.kordamp.ikonli.javafx.FontIcon(glyph);
+                fi.setIconSize(14);
+                setGraphic(fi);
+                setGraphicTextGap(8);
+            }
+        });
         TableColumn<Row, Number> line = new TableColumn<>("Line");
         line.setCellValueFactory(new PropertyValueFactory<>("line"));
         line.setPrefWidth(60);
@@ -88,6 +110,12 @@ public final class DbSearchTab extends Tab {
         snippet.setCellValueFactory(new PropertyValueFactory<>("snippet"));
         snippet.setPrefWidth(640);
         table.getColumns().setAll(conn, owner, name, type, line, snippet);
+        table.setPlaceholder(
+                org.fxt.freeplsql.app.ui.shell.EmptyState.builder()
+                        .featherIcon(org.kordamp.ikonli.feather.Feather.SEARCH)
+                        .title("Type to search")
+                        .body("Search runs across SOURCE for every connected schema. Wildcards: % and _.")
+                        .build());
 
         table.setRowFactory(tv -> {
             var r = new javafx.scene.control.TableRow<Row>();

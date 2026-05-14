@@ -57,7 +57,7 @@ public final class InvalidObjectsTab extends Tab {
         VBox layout = new VBox(controls, table, statusLabel);
         VBox.setVgrow(table, Priority.ALWAYS);
         statusLabel.setPadding(new Insets(4, 8, 4, 8));
-        statusLabel.setStyle("-fx-text-fill: -color-fg-muted;");
+        statusLabel.setStyle("-fx-text-fill: -fxt-fg-muted;");
         setContent(layout);
 
         refreshButton.setOnAction(e -> refresh());
@@ -83,10 +83,25 @@ public final class InvalidObjectsTab extends Tab {
         TableColumn<Row, String> attr = new TableColumn<>("Attribute");
         attr.setCellValueFactory(new PropertyValueFactory<>("attribute"));
         attr.setPrefWidth(90);
+        attr.setCellFactory(col -> new javafx.scene.control.TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); setText(null); return; }
+                setGraphic(org.fxt.freeplsql.app.ui.shell.Chip.forSeverity(item));
+                setText(null);
+            }
+        });
         TableColumn<Row, String> text = new TableColumn<>("Message");
         text.setCellValueFactory(new PropertyValueFactory<>("text"));
         text.setPrefWidth(700);
         table.getColumns().setAll(owner, name, type, line, pos, attr, text);
+        table.setPlaceholder(
+                org.fxt.freeplsql.app.ui.shell.EmptyState.builder()
+                        .featherIcon(org.kordamp.ikonli.feather.Feather.CHECK_CIRCLE)
+                        .title("No invalid objects")
+                        .body("Pick a connection and schema, then refresh.")
+                        .build());
         return table;
     }
 
