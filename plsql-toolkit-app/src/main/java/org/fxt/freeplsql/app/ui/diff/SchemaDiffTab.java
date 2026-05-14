@@ -71,7 +71,7 @@ public final class SchemaDiffTab extends Tab {
 
         TableView<Row> table = buildTable();
         diffArea.setEditable(false);
-        diffArea.setStyle("-fx-font-family: 'Monospace'; -fx-font-size: 12px;");
+        diffArea.setStyle("-fx-font-family: 'JetBrains Mono', monospace; -fx-font-size: 12px;");
 
         SplitPane split = new SplitPane(table, diffArea);
         split.setOrientation(Orientation.VERTICAL);
@@ -80,7 +80,7 @@ public final class SchemaDiffTab extends Tab {
         VBox layout = new VBox(controls, split, statusLabel);
         VBox.setVgrow(split, Priority.ALWAYS);
         statusLabel.setPadding(new Insets(4, 8, 4, 8));
-        statusLabel.setStyle("-fx-text-fill: -color-fg-muted;");
+        statusLabel.setStyle("-fx-text-fill: -fxt-fg-muted;");
         setContent(layout);
 
         compareButton.setOnAction(e -> runDiff());
@@ -94,6 +94,24 @@ public final class SchemaDiffTab extends Tab {
         TableColumn<Row, String> status = new TableColumn<>("Status");
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         status.setPrefWidth(100);
+        status.setCellFactory(col -> new javafx.scene.control.TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                getStyleClass().removeAll(
+                        "severity-strip-added",
+                        "severity-strip-removed",
+                        "severity-strip-changed");
+                if (empty || item == null) { setText(null); return; }
+                setText(item);
+                switch (item.toUpperCase()) {
+                    case "ADDED"    -> getStyleClass().add("severity-strip-added");
+                    case "REMOVED"  -> getStyleClass().add("severity-strip-removed");
+                    case "MODIFIED" -> getStyleClass().add("severity-strip-changed");
+                    default         -> { /* no strip */ }
+                }
+            }
+        });
         TableColumn<Row, String> type = new TableColumn<>("Type");
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
         type.setPrefWidth(140);
