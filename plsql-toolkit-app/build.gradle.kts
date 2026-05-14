@@ -15,6 +15,22 @@ dependencies {
     implementation("io.github.mkpaz:atlantafx-base:2.1.0")
     implementation("org.kordamp.ikonli:ikonli-javafx:12.4.0")
     implementation("org.kordamp.ikonli:ikonli-feather-pack:12.4.0")
+
+    testImplementation("org.testfx:testfx-core:4.0.18")
+    testImplementation("org.testfx:testfx-junit5:4.0.18")
+    testImplementation("org.testfx:openjfx-monocle:21.0.2")
+}
+
+tasks.withType<Test> {
+    jvmArgs(
+        "-Djava.awt.headless=true",
+        "-Dtestfx.robot=glass",
+        "-Dtestfx.headless=true",
+        "-Dprism.order=sw",
+        "-Dprism.text=t2k",
+        "-Dglass.platform=Monocle",
+        "-Dmonocle.platform=Headless"
+    )
 }
 
 javafx {
