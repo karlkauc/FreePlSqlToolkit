@@ -1,0 +1,91 @@
+/*
+ * Reusable component classes — pair with Java factories in
+ * org.fxt.freeplsql.app.ui.shell.{Chip,KpiCard,EmptyState}.
+ */
+
+/* Chips (lint severity, badges) */
+.chip {
+    -fx-background-radius: 12;
+    -fx-padding: 2 10 2 10;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+}
+.chip-success { -fx-background-color: -fxt-chip-success-bg; -fx-text-fill: -fxt-success; }
+.chip-warn    { -fx-background-color: -fxt-chip-warn-bg;    -fx-text-fill: -fxt-warn;    }
+.chip-danger  { -fx-background-color: -fxt-chip-danger-bg;  -fx-text-fill: -fxt-danger;  }
+.chip-info    { -fx-background-color: derive(-fxt-info, 80%); -fx-text-fill: -fxt-info;  }
+.chip-muted   { -fx-background-color: -fxt-surface-2;        -fx-text-fill: -fxt-fg-muted; }
+
+/* KPI card */
+.kpi-card {
+    -fx-background-color: -fxt-surface-1;
+    -fx-border-color: -fxt-border;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 10 16 12 16;
+}
+.kpi-card .kpi-label {
+    -fx-text-fill: -fxt-fg-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+}
+.kpi-card .kpi-value {
+    -fx-text-fill: -fxt-fg-default;
+    -fx-font-size: 22px;
+    -fx-font-weight: 700;
+}
+
+/* Empty state */
+.empty-state {
+    -fx-alignment: center;
+    -fx-spacing: 12;
+    -fx-padding: 32;
+}
+.empty-state .empty-title {
+    -fx-text-fill: -fxt-fg-default;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+}
+.empty-state .empty-body {
+    -fx-text-fill: -fxt-fg-muted;
+    -fx-font-size: 12px;
+}
+
+/* Activity bar */
+.activity-bar {
+    -fx-background-color: -fxt-surface-2;
+    -fx-border-color: transparent -fxt-border transparent transparent;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 8 0 8 0;
+}
+.activity-bar .activity-button {
+    -fx-background-color: transparent;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+    -fx-text-fill: -fxt-fg-muted;
+}
+.activity-bar .activity-button:hover {
+    -fx-background-color: derive(-fxt-surface-1, -3%);
+    -fx-text-fill: -fxt-fg-default;
+}
+.activity-bar .activity-button.active {
+    -fx-background-color: -fxt-primary-soft;
+    -fx-text-fill: -fxt-primary;
+}
+
+/* Primary button */
+.button-primary {
+    -fx-background-color: -fxt-primary;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-background-radius: 6;
+    -fx-padding: 6 14 6 14;
+}
+.button-primary:hover  { -fx-background-color: -fxt-primary-hover; }
+.button-primary:pressed{ -fx-background-color: derive(-fxt-primary-hover, -8%); }
+
+/* Severity gutter strip (for schema diff) */
+.severity-strip-added    { -fx-background-color: derive(-fxt-success, 40%); }
+.severity-strip-removed  { -fx-background-color: derive(-fxt-danger,  40%); }
+.severity-strip-changed  { -fx-background-color: derive(-fxt-warn,    40%); }
