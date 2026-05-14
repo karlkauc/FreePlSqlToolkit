@@ -41,10 +41,18 @@ public final class MainApp extends Application {
                 Objects.requireNonNull(MainApp.class.getResource("/fxml/MainView.fxml"),
                         "MainView.fxml not found on classpath"));
         Scene scene = new Scene(loader.load(), ws.getWindowWidth(), ws.getWindowHeight());
-        scene.getStylesheets().add(
-                Objects.requireNonNull(MainApp.class.getResource("/css/syntax.css")).toExternalForm());
-        scene.getStylesheets().add(
-                Objects.requireNonNull(MainApp.class.getResource("/css/app.css")).toExternalForm());
+        for (String css : new String[]{
+                "/css/tokens.css",
+                "/css/app.css",
+                "/css/components.css",
+                "/css/syntax.css"}) {
+            scene.getStylesheets().add(
+                    Objects.requireNonNull(MainApp.class.getResource(css),
+                            css + " not found on classpath").toExternalForm());
+        }
+        if (context.settings().isDark()) {
+            scene.getRoot().getStyleClass().add("dark");
+        }
 
         WorkspaceController controller = loader.getController();
         controller.bind(stage, scene, context);

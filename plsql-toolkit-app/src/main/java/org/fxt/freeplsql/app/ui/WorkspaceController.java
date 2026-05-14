@@ -48,7 +48,7 @@ public final class WorkspaceController {
         this.stage = stage;
         this.context = context;
         this.tabManager = new TabManager(workspaceTabs);
-        this.themeManager = new ThemeManager(context.settings().isDark(), () -> {
+        this.themeManager = new ThemeManager(scene, context.settings().isDark(), () -> {
             context.settings().setDark(themeManager.isDark());
             context.saveSettings();
         });
