@@ -53,6 +53,7 @@ public final class SchemaNavigatorController {
 
     @FXML private TitledPane root;
     @FXML private TreeView<NavNode> tree;
+    @FXML private javafx.scene.layout.VBox emptyState;
 
     private final SchemaMetadataService metadata = new SchemaMetadataService();
     private final BatchLintService batchLint = new BatchLintService(new LintEngine(DefaultRules.all()));
@@ -82,6 +83,25 @@ public final class SchemaNavigatorController {
         tree.setRoot(new TreeItem<>());
         tree.setCellFactory(tv -> new NavCell(this::lintSchema, this::showDependencies));
         tree.setOnMouseClicked(this::onTreeClick);
+        org.fxt.freeplsql.app.ui.shell.EmptyState empty =
+                org.fxt.freeplsql.app.ui.shell.EmptyState.builder()
+                        .featherIcon(org.kordamp.ikonli.feather.Feather.FOLDER)
+                        .title("No schema loaded")
+                        .body("Connect to a database to browse its packages, views, tables and triggers.")
+                        .build();
+        emptyState.getChildren().setAll(empty);
+        Runnable updateEmptyState = () -> {
+            boolean isEmpty = tree.getRoot() == null
+                    || tree.getRoot().getChildren().isEmpty();
+            emptyState.setVisible(isEmpty);
+            emptyState.setManaged(isEmpty);
+            tree.setVisible(!isEmpty);
+            tree.setManaged(!isEmpty);
+        };
+        updateEmptyState.run();
+        tree.getRoot().getChildren().addListener(
+                (javafx.collections.ListChangeListener<? super javafx.scene.control.TreeItem<NavNode>>)
+                c -> updateEmptyState.run());
     }
 
     private void showDependencies(NavNode.Obj objNode) {
@@ -310,11 +330,13 @@ public final class SchemaNavigatorController {
             super.updateItem(item, empty);
             if (empty || item == null) {
                 setText(null);
+                setGraphic(null);
                 setStyle("");
                 setContextMenu(null);
                 return;
             }
             setText(item.label());
+            setGraphic(iconFor(item));
             switch (item) {
                 case NavNode.Schema s -> setContextMenu(schemaMenu);
                 case NavNode.Obj o -> setContextMenu(objectMenu);
@@ -322,11 +344,40 @@ public final class SchemaNavigatorController {
             }
             switch (item) {
                 case NavNode.Conn ignored -> setStyle("-fx-font-weight: bold;");
-                case NavNode.Schema ignored -> setStyle("-fx-font-weight: bold; -fx-text-fill: -color-accent-fg;");
-                case NavNode.Type ignored -> setStyle("-fx-text-fill: -color-fg-muted;");
-                case NavNode.Loading ignored -> setStyle("-fx-text-fill: -color-fg-muted; -fx-font-style: italic;");
+                case NavNode.Schema ignored -> setStyle("-fx-font-weight: bold; -fx-text-fill: -fxt-primary;");
+                case NavNode.Type ignored -> setStyle("-fx-text-fill: -fxt-fg-muted;");
+                case NavNode.Loading ignored -> setStyle("-fx-text-fill: -fxt-fg-muted; -fx-font-style: italic;");
                 case NavNode.Obj ignored -> setStyle("");
             }
+        }
+
+        private static org.kordamp.ikonli.javafx.FontIcon iconFor(NavNode n) {
+            org.kordamp.ikonli.feather.Feather glyph = switch (n) {
+                case NavNode.Conn ignored -> org.kordamp.ikonli.feather.Feather.DATABASE;
+                case NavNode.Schema ignored -> org.kordamp.ikonli.feather.Feather.FOLDER;
+                case NavNode.Type t -> glyphForType(t.objectType());
+                case NavNode.Obj o -> glyphForType(o.dbObject().type());
+                case NavNode.Loading ignored -> org.kordamp.ikonli.feather.Feather.LOADER;
+            };
+            org.kordamp.ikonli.javafx.FontIcon fi = new org.kordamp.ikonli.javafx.FontIcon(glyph);
+            fi.setIconSize(14);
+            return fi;
+        }
+
+        private static org.kordamp.ikonli.feather.Feather glyphForType(String typeName) {
+            String t = typeName == null ? "" : typeName.toUpperCase();
+            return switch (t) {
+                case "PACKAGE", "PACKAGE BODY" -> org.kordamp.ikonli.feather.Feather.PACKAGE;
+                case "FUNCTION", "PROCEDURE"   -> org.kordamp.ikonli.feather.Feather.PLAY;
+                case "VIEW"                    -> org.kordamp.ikonli.feather.Feather.EYE;
+                case "TABLE"                   -> org.kordamp.ikonli.feather.Feather.GRID;
+                case "TRIGGER"                 -> org.kordamp.ikonli.feather.Feather.ZAP;
+                case "TYPE", "TYPE BODY"       -> org.kordamp.ikonli.feather.Feather.BOX;
+                case "SEQUENCE"                -> org.kordamp.ikonli.feather.Feather.HASH;
+                case "INDEX"                   -> org.kordamp.ikonli.feather.Feather.LIST;
+                case "SYNONYM"                 -> org.kordamp.ikonli.feather.Feather.LINK_2;
+                default                        -> org.kordamp.ikonli.feather.Feather.FILE;
+            };
         }
     }
 }
