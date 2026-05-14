@@ -1,37 +1,18 @@
 .plsql-code-area {
     -fx-font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
     -fx-font-size: 13px;
+    -fx-background-color: -fxt-surface-0;
 }
 
-.plsql-code-area .text {
-    -fx-fill: -color-fg-default, #2d333b;
-}
+.plsql-code-area .text             { -fx-fill: -fxt-fg-default; }
+.plsql-code-area .syntax-keyword   { -fx-fill: -fxt-primary;  -fx-font-weight: bold; }
+.plsql-code-area .syntax-string    { -fx-fill: -fxt-info; }
+.plsql-code-area .syntax-number    { -fx-fill: -fxt-warn; }
+.plsql-code-area .syntax-comment   { -fx-fill: -fxt-fg-muted; -fx-font-style: italic; }
+.plsql-code-area .syntax-identifier{ -fx-fill: -fxt-fg-default; }
 
-.plsql-code-area .syntax-keyword {
-    -fx-fill: #cf222e;
-    -fx-font-weight: bold;
-}
-
-.plsql-code-area .syntax-string {
-    -fx-fill: #0a3069;
-}
-
-.plsql-code-area .syntax-number {
-    -fx-fill: #953800;
-}
-
-.plsql-code-area .syntax-comment {
-    -fx-fill: #6e7781;
-    -fx-font-style: italic;
-}
-
-.plsql-code-area .syntax-identifier {
-    -fx-fill: -color-fg-default, #2d333b;
-}
-
-/* Better line-number gutter */
 .plsql-code-area .lineno {
-    -fx-background-color: derive(-color-bg-default, -3%);
-    -fx-text-fill: -color-fg-muted, #6e7781;
+    -fx-background-color: -fxt-surface-1;
+    -fx-text-fill: -fxt-fg-muted;
     -fx-padding: 0 8 0 8;
 }
