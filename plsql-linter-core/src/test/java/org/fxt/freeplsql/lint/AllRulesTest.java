@@ -169,6 +169,39 @@ class AllRulesTest {
     }
 
     @Test
+    void f14_commitInTriggerEditionable() {
+        // db-sync exports triggers with EDITIONABLE and schema-qualified quoted names;
+        // the grammar must still recognize them as triggers so F-14 fires.
+        var src = """
+                CREATE OR REPLACE EDITIONABLE TRIGGER "HR"."TRG_EMP_AUDIT"
+                AFTER UPDATE OF salary ON employees
+                FOR EACH ROW
+                DECLARE
+                    msg VARCHAR2(200);
+                BEGIN
+                    msg := 'changed';
+                    COMMIT;
+                END;
+                /
+                """;
+        assertHas(src, "F-14");
+    }
+
+    @Test
+    void f14_commitInTriggerNoneditionable() {
+        var src = """
+                CREATE OR REPLACE NONEDITIONABLE TRIGGER trg_audit
+                AFTER INSERT ON employees
+                FOR EACH ROW
+                BEGIN
+                    COMMIT;
+                END;
+                /
+                """;
+        assertHas(src, "F-14");
+    }
+
+    @Test
     void f15_explicitCursor() {
         var src = """
                 DECLARE
