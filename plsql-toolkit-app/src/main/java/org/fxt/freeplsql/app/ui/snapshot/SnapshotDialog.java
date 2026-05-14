@@ -43,6 +43,7 @@ public final class SnapshotDialog extends Dialog<SyncResult> {
     public SnapshotDialog(AppContext context) {
         this.context = context;
         setTitle("Snapshot to Git");
+        setGraphic(brandMark());
         setHeaderText("Dumps each PL/SQL object's DDL into a Git repository "
                 + "and commits the changed files.");
 
@@ -70,7 +71,7 @@ public final class SnapshotDialog extends Dialog<SyncResult> {
         grid.add(progress, 2, 3);
         progress.setVisible(false);
         progress.setPrefSize(20, 20);
-        statusLabel.setStyle("-fx-text-fill: -color-fg-muted;");
+        statusLabel.setStyle("-fx-text-fill: -fxt-fg-muted;");
 
         getDialogPane().setContent(grid);
         getDialogPane().getButtonTypes().setAll(
@@ -80,6 +81,7 @@ public final class SnapshotDialog extends Dialog<SyncResult> {
         browseButton.setOnAction(e -> chooseDirectory());
 
         var runButton = (Button) getDialogPane().lookupButton(getDialogPane().getButtonTypes().get(0));
+        runButton.getStyleClass().add("button-primary");
         runButton.addEventFilter(javafx.event.ActionEvent.ACTION, ev -> {
             ev.consume();   // run async, don't close dialog yet
             runSnapshot(runButton);
@@ -118,6 +120,15 @@ public final class SnapshotDialog extends Dialog<SyncResult> {
         Thread t = new Thread(task, "snapshot-schemas");
         t.setDaemon(true);
         t.start();
+    }
+
+    private static javafx.scene.image.ImageView brandMark() {
+        javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(
+                org.fxt.freeplsql.app.ui.shell.Branding.markImage(40));
+        iv.setFitWidth(40);
+        iv.setFitHeight(40);
+        iv.setPreserveRatio(true);
+        return iv;
     }
 
     private void runSnapshot(Button runButton) {

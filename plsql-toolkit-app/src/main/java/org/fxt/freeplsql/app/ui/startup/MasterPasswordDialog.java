@@ -30,6 +30,7 @@ public final class MasterPasswordDialog extends Dialog<char[]> {
     public MasterPasswordDialog(Mode mode) {
         this.mode = mode;
         setTitle("FreePlSqlToolkit");
+        setGraphic(brandMark());
         setHeaderText(mode == Mode.CREATE
                 ? "Set a master password to encrypt your connection profiles.\n"
                   + "If you lose it, the profiles cannot be recovered."
@@ -55,6 +56,7 @@ public final class MasterPasswordDialog extends Dialog<char[]> {
         getDialogPane().getButtonTypes().setAll(primary, ButtonType.CANCEL);
 
         Node primaryButton = getDialogPane().lookupButton(primary);
+        primaryButton.getStyleClass().add("button-primary");
         primaryButton.addEventFilter(ActionEvent.ACTION, ev -> {
             if (!validate()) {
                 ev.consume();
@@ -71,6 +73,15 @@ public final class MasterPasswordDialog extends Dialog<char[]> {
         if (message != null) {
             errorLabel.setText(message);
         }
+    }
+
+    private static javafx.scene.image.ImageView brandMark() {
+        javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(
+                org.fxt.freeplsql.app.ui.shell.Branding.markImage(40));
+        iv.setFitWidth(40);
+        iv.setFitHeight(40);
+        iv.setPreserveRatio(true);
+        return iv;
     }
 
     private boolean validate() {

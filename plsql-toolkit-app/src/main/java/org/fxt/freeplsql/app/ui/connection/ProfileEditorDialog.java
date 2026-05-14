@@ -66,7 +66,8 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
         this.existingId = initial != null ? initial.id() : null;
 
         setTitle(initial == null ? "New Connection Profile" : "Edit Connection Profile");
-        setHeaderText(null);
+        setHeaderText("Connection profile");
+        setGraphic(brandMark());
 
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(
                 getClass().getResource("/fxml/ProfileEditorDialog.fxml"),
@@ -85,6 +86,7 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
         applyInitial(initial);
 
         Node okButton = getDialogPane().lookupButton(ButtonType.OK);
+        okButton.getStyleClass().add("button-primary");
         okButton.addEventFilter(ActionEvent.ACTION, ev -> {
             if (!validate()) {
                 ev.consume();
@@ -235,5 +237,14 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
 
     private static String nullToEmpty(String s) {
         return s == null ? "" : s;
+    }
+
+    private static javafx.scene.image.ImageView brandMark() {
+        javafx.scene.image.ImageView iv = new javafx.scene.image.ImageView(
+                org.fxt.freeplsql.app.ui.shell.Branding.markImage(40));
+        iv.setFitWidth(40);
+        iv.setFitHeight(40);
+        iv.setPreserveRatio(true);
+        return iv;
     }
 }
