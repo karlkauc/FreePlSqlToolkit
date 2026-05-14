@@ -38,6 +38,14 @@ public final class MetricsTab extends Tab {
     private final ComboBox<String> schemaCombo = new ComboBox<>();
     private final Button refreshButton = new Button("Refresh");
     private final Label statusLabel = new Label("Pick a connection and schema.");
+    private final org.fxt.freeplsql.app.ui.shell.KpiCard kpiObjects =
+            new org.fxt.freeplsql.app.ui.shell.KpiCard("OBJECTS", "—");
+    private final org.fxt.freeplsql.app.ui.shell.KpiCard kpiLoc =
+            new org.fxt.freeplsql.app.ui.shell.KpiCard("TOTAL LOC", "—");
+    private final org.fxt.freeplsql.app.ui.shell.KpiCard kpiAvgCcn =
+            new org.fxt.freeplsql.app.ui.shell.KpiCard("AVG CCN", "—");
+    private final org.fxt.freeplsql.app.ui.shell.KpiCard kpiMaxCcn =
+            new org.fxt.freeplsql.app.ui.shell.KpiCard("MAX CCN", "—");
 
     public MetricsTab(AppContext context) {
         super("Metrics");
@@ -54,10 +62,13 @@ public final class MetricsTab extends Tab {
         controls.setPadding(new Insets(8));
 
         TableView<Row> table = buildTable();
-        VBox layout = new VBox(controls, table, statusLabel);
+        javafx.scene.layout.HBox kpis = new javafx.scene.layout.HBox(12,
+                kpiObjects, kpiLoc, kpiAvgCcn, kpiMaxCcn);
+        kpis.setPadding(new Insets(0, 8, 8, 8));
+        VBox layout = new VBox(controls, kpis, table, statusLabel);
         VBox.setVgrow(table, Priority.ALWAYS);
         statusLabel.setPadding(new Insets(4, 8, 4, 8));
-        statusLabel.setStyle("-fx-text-fill: -color-fg-muted;");
+        statusLabel.setStyle("-fx-text-fill: -fxt-fg-muted;");
         setContent(layout);
 
         refreshButton.setOnAction(e -> compute());
@@ -110,6 +121,10 @@ public final class MetricsTab extends Tab {
         if (handle == null || schema == null) return;
         statusLabel.setText("Computing…");
         rows.clear();
+        kpiObjects.setValue("—");
+        kpiLoc.setValue("—");
+        kpiAvgCcn.setValue("—");
+        kpiMaxCcn.setValue("—");
         Task<List<ObjectMetrics>> task = new Task<>() {
             @Override
             protected List<ObjectMetrics> call() throws Exception {
@@ -123,7 +138,15 @@ public final class MetricsTab extends Tab {
             for (ObjectMetrics m : task.getValue()) {
                 rows.add(Row.from(m));
             }
+            long total = task.getValue().size();
+            long loc   = task.getValue().stream().mapToLong(ObjectMetrics::loc).sum();
+            double avgCcn = task.getValue().stream().mapToInt(ObjectMetrics::ccn).average().orElse(0);
+            int maxCcn = task.getValue().stream().mapToInt(ObjectMetrics::ccn).max().orElse(0);
             statusLabel.setText(rows.size() + " object(s)");
+            kpiObjects.setValue(Long.toString(total));
+            kpiLoc.setValue(Long.toString(loc));
+            kpiAvgCcn.setValue(String.format("%.1f", avgCcn));
+            kpiMaxCcn.setValue(Integer.toString(maxCcn));
         });
         task.setOnFailed(ev -> {
             statusLabel.setText("Failed.");
