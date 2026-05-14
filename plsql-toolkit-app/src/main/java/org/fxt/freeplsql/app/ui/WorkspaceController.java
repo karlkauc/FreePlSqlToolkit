@@ -55,6 +55,25 @@ public final class WorkspaceController {
         this.stage = stage;
         this.context = context;
         this.tabManager = new TabManager(workspaceTabs);
+        javafx.scene.layout.StackPane center = new javafx.scene.layout.StackPane();
+        center.getChildren().add(workspaceTabs);
+        org.fxt.freeplsql.app.ui.shell.EmptyState welcome =
+                org.fxt.freeplsql.app.ui.shell.EmptyState.builder()
+                        .logoMark(96)
+                        .title("FreePlSqlToolkit")
+                        .body("Open a local file, connect to a database, or use the Tools menu to start.")
+                        .build();
+        welcome.setMouseTransparent(true);
+        center.getChildren().add(welcome);
+        Runnable updateWelcome = () -> {
+            boolean noTabs = workspaceTabs.getTabs().isEmpty();
+            welcome.setVisible(noTabs);
+            welcome.setManaged(noTabs);
+        };
+        workspaceTabs.getTabs().addListener(
+                (javafx.collections.ListChangeListener<javafx.scene.control.Tab>) c -> updateWelcome.run());
+        updateWelcome.run();
+        root.setCenter(center);
         this.themeManager = new ThemeManager(scene, context.settings().isDark(), () -> {
             context.settings().setDark(themeManager.isDark());
             context.saveSettings();
