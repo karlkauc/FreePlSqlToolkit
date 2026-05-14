@@ -1,8 +1,14 @@
+<p align="center">
+  <img src="docs/assets/logo-mark-256.png" alt="FreePlSqlToolkit logo" width="160" height="160"/>
+</p>
+
 # FreePlSqlToolkit
 
-A free, open-source toolkit for PL/SQL development.
+A free, open-source toolkit for PL/SQL development — parser, linter, DB↔Git sync, and a JavaFX analysis workbench.
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
+> **v0.2 — desktop workbench** · Multi-DB analysis with live linting, schema navigator, batch lint, cross-references, metrics, invalid-objects dashboard, schema diff, and DB→Git snapshot. Light & dark themes, Oracle-crimson brand identity.
 
 ## What's inside
 
