@@ -17,6 +17,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import org.fxt.freeplsql.app.AppContext;
 import org.fxt.freeplsql.appsvc.connection.ConnectionHandle;
 import org.fxt.freeplsql.appsvc.connection.ConnectionManager;
@@ -32,6 +33,7 @@ public final class ConnectionSidebarController {
 
     @FXML private TitledPane root;
     @FXML private ListView<ConnectionProfile> profileList;
+    @FXML private VBox emptyState;
     @FXML private Button addButton;
     @FXML private Button editButton;
     @FXML private Button deleteButton;
@@ -71,6 +73,26 @@ public final class ConnectionSidebarController {
                 onEdit();
             }
         });
+
+        org.fxt.freeplsql.app.ui.shell.EmptyState empty =
+                org.fxt.freeplsql.app.ui.shell.EmptyState.builder()
+                        .featherIcon(org.kordamp.ikonli.feather.Feather.DATABASE)
+                        .title("No connections yet")
+                        .body("Add a database connection profile to start exploring schemas and running the linter.")
+                        .action("+ Add connection", () -> addButton.fire())
+                        .build();
+        emptyState.getChildren().setAll(empty);
+        Runnable updateEmptyState = () -> {
+            boolean isEmpty = profileList.getItems().isEmpty();
+            emptyState.setVisible(isEmpty);
+            emptyState.setManaged(isEmpty);
+            profileList.setVisible(!isEmpty);
+            profileList.setManaged(!isEmpty);
+        };
+        profileList.getItems().addListener(
+                (javafx.collections.ListChangeListener<? super
+                        org.fxt.freeplsql.appsvc.connection.ConnectionProfile>) c -> updateEmptyState.run());
+        updateEmptyState.run();
     }
 
     private void bind(AppContext context) {
