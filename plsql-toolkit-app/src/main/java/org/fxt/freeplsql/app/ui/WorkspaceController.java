@@ -233,11 +233,7 @@ public final class WorkspaceController {
 
     @FXML
     private void onAbout() {
-        var alert = new Alert(Alert.AlertType.INFORMATION,
-                "FreePlSqlToolkit v0.2\n\nMulti-database PL/SQL analysis workbench.\n"
-                        + "Apache 2.0 — github.com/karlkauc/FreePlSqlToolkit");
-        alert.setHeaderText("About");
-        alert.showAndWait();
+        org.fxt.freeplsql.app.ui.shell.AboutDialog.show(stage);
     }
 
     private boolean ensureActiveConnection() {
