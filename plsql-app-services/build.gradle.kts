@@ -14,5 +14,5 @@ dependencies {
 
     runtimeOnly("com.oracle.database.jdbc:ojdbc11:23.6.0.24.10")
 
-    testImplementation("org.mockito:mockito-core:5.14.2")
+    testImplementation("org.mockito:mockito-core:5.23.0")
 }
