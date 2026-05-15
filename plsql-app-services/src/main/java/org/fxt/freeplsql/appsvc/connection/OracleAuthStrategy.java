@@ -8,7 +8,7 @@ import com.zaxxer.hikari.HikariConfig;
  * {@link #forType(AuthType)}.
  */
 public sealed interface OracleAuthStrategy
-        permits EasyConnectAuth, TnsNamesAuth, WalletAuth, KerberosAuth {
+        permits EasyConnectAuth, TnsNamesAuth, WalletAuth, KerberosAuth, CustomUrlAuth {
 
     String jdbcUrl(ConnectionProfile profile);
 
@@ -21,6 +21,7 @@ public sealed interface OracleAuthStrategy
             case TNS_NAMES -> new TnsNamesAuth();
             case WALLET -> new WalletAuth();
             case KERBEROS -> new KerberosAuth();
+            case CUSTOM_URL -> new CustomUrlAuth();
         };
     }
 }

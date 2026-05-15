@@ -4,5 +4,6 @@ public enum AuthType {
     EASY_CONNECT,
     TNS_NAMES,
     WALLET,
-    KERBEROS
+    KERBEROS,
+    CUSTOM_URL
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import org.fxt.freeplsql.appsvc.connection.AuthType;
@@ -56,6 +57,10 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
     @FXML private Spinner<Integer> kerbPort;
     @FXML private TextField kerbService;
     @FXML private TextField kerbPrincipal;
+
+    @FXML private TextArea customUrl;
+    @FXML private TextField customUsername;
+    @FXML private PasswordField customPassword;
 
     @FXML private Label errorLabel;
 
@@ -162,6 +167,12 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
                 kerbService.setText(nullToEmpty(p.service()));
                 kerbPrincipal.setText(nullToEmpty(p.kerberosPrincipal()));
             }
+            case CUSTOM_URL -> {
+                authTabs.getSelectionModel().select(4);
+                customUrl.setText(nullToEmpty(p.customJdbcUrl()));
+                customUsername.setText(nullToEmpty(p.username()));
+                customPassword.setText(nullToEmpty(p.password()));
+            }
         }
     }
 
@@ -186,6 +197,11 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
             case KERBEROS -> {
                 if (kerbHost.getText().isBlank()) return fail("Host is required.");
                 if (kerbService.getText().isBlank()) return fail("Service name is required.");
+            }
+            case CUSTOM_URL -> {
+                String url = customUrl.getText() == null ? "" : customUrl.getText().trim();
+                if (url.isBlank()) return fail("JDBC URL is required.");
+                if (!url.startsWith("jdbc:")) return fail("JDBC URL must start with \"jdbc:\".");
             }
         }
         errorLabel.setText("");
@@ -221,6 +237,12 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
                     kerbHost.getText().trim(), kerbPort.getValue(), kerbService.getText().trim(),
                     kerbPrincipal.getText() == null ? null : kerbPrincipal.getText().trim(),
                     pool);
+            case CUSTOM_URL -> ConnectionProfile.customUrl(
+                    id, name,
+                    customUrl.getText().trim(),
+                    customUsername.getText() == null ? null : customUsername.getText().trim(),
+                    customPassword.getText() == null ? null : customPassword.getText(),
+                    pool);
         };
     }
 
@@ -231,6 +253,7 @@ public final class ProfileEditorDialog extends Dialog<ConnectionProfile> {
             case "TNS" -> AuthType.TNS_NAMES;
             case "Wallet" -> AuthType.WALLET;
             case "Kerberos" -> AuthType.KERBEROS;
+            case "Custom URL" -> AuthType.CUSTOM_URL;
             default -> AuthType.EASY_CONNECT;
         };
     }

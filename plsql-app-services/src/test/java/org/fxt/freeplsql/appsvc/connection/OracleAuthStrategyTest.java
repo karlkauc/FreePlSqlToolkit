@@ -61,6 +61,34 @@ class OracleAuthStrategyTest {
     }
 
     @Test
+    void customUrlIsUsedVerbatim() {
+        String descriptor = "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)"
+                + "(HOST=db.example.com)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))";
+        var p = ConnectionProfile.customUrl("id", "n", descriptor, "scott", "tiger", 2);
+        var s = OracleAuthStrategy.forType(AuthType.CUSTOM_URL);
+        assertEquals(descriptor, s.jdbcUrl(p));
+
+        var config = new HikariConfig();
+        config.setJdbcUrl(s.jdbcUrl(p));
+        s.applyConfig(config, p);
+        assertEquals("scott", config.getUsername());
+        assertEquals("tiger", config.getPassword());
+    }
+
+    @Test
+    void customUrlWithoutCredentialsLeavesUserNull() {
+        var p = ConnectionProfile.customUrl("id", "n",
+                "jdbc:oracle:thin:@//db.example.com:1521/ORCL", "", "", 2);
+        var s = OracleAuthStrategy.forType(AuthType.CUSTOM_URL);
+
+        var config = new HikariConfig();
+        config.setJdbcUrl(s.jdbcUrl(p));
+        s.applyConfig(config, p);
+        assertNull(config.getUsername());
+        assertNull(config.getPassword());
+    }
+
+    @Test
     void kerberosUsesEasyConnectAndAuthService() {
         var p = ConnectionProfile.kerberos("id", "n",
                 "kdc.host", 1521, "ORCL", "svc/host@REALM", 2);
