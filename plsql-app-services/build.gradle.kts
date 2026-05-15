@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":plsql-db-sync"))
 
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.1")
-    implementation("com.zaxxer:HikariCP:5.1.0")
+    implementation("com.zaxxer:HikariCP:7.0.2")
     implementation("io.github.java-diff-utils:java-diff-utils:4.12")
     compileOnly("org.eclipse.jgit:org.eclipse.jgit:7.0.0.202409031743-r")
 
