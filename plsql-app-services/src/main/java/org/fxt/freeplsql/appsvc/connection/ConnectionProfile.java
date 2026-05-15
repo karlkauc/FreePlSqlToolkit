@@ -16,6 +16,7 @@ public record ConnectionProfile(
         String tnsAlias,
         String walletPath,
         String kerberosPrincipal,
+        String customJdbcUrl,
         String username,
         String password,
         int poolSize
@@ -27,7 +28,7 @@ public record ConnectionProfile(
             String username, String password, int poolSize) {
         return new ConnectionProfile(id, name, AuthType.EASY_CONNECT,
                 host, port, service,
-                null, null, null,
+                null, null, null, null,
                 username, password, poolSize);
     }
 
@@ -36,7 +37,7 @@ public record ConnectionProfile(
             String username, String password, int poolSize) {
         return new ConnectionProfile(id, name, AuthType.TNS_NAMES,
                 null, null, null,
-                tnsAlias, null, null,
+                tnsAlias, null, null, null,
                 username, password, poolSize);
     }
 
@@ -45,7 +46,7 @@ public record ConnectionProfile(
             String username, String password, int poolSize) {
         return new ConnectionProfile(id, name, AuthType.WALLET,
                 null, null, null,
-                tnsAlias, walletPath, null,
+                tnsAlias, walletPath, null, null,
                 username, password, poolSize);
     }
 
@@ -55,7 +56,16 @@ public record ConnectionProfile(
             String kerberosPrincipal, int poolSize) {
         return new ConnectionProfile(id, name, AuthType.KERBEROS,
                 host, port, service,
-                null, null, kerberosPrincipal,
+                null, null, kerberosPrincipal, null,
                 null, null, poolSize);
+    }
+
+    public static ConnectionProfile customUrl(
+            String id, String name, String customJdbcUrl,
+            String username, String password, int poolSize) {
+        return new ConnectionProfile(id, name, AuthType.CUSTOM_URL,
+                null, null, null,
+                null, null, null, customJdbcUrl,
+                username, password, poolSize);
     }
 }

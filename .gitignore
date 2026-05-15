@@ -18,6 +18,8 @@ gradle-app.setting
 .classpath
 .project
 .settings/
+.factorypath
+bin/
 
 # Claude Code harness state
 .claude/
