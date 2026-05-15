@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     api(project(":plsql-parser"))
-    implementation("org.yaml:snakeyaml:2.4")
+    implementation("org.yaml:snakeyaml:2.6")
 }
