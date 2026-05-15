@@ -9,7 +9,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.1")
     implementation("com.zaxxer:HikariCP:5.1.0")
-    implementation("io.github.java-diff-utils:java-diff-utils:4.12")
+    implementation("io.github.java-diff-utils:java-diff-utils:4.16")
     compileOnly("org.eclipse.jgit:org.eclipse.jgit:7.0.0.202409031743-r")
 
     runtimeOnly("com.oracle.database.jdbc:ojdbc11:23.6.0.24.10")
