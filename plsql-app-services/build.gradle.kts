@@ -12,7 +12,7 @@ dependencies {
     implementation("io.github.java-diff-utils:java-diff-utils:4.17")
     compileOnly("org.eclipse.jgit:org.eclipse.jgit:7.0.0.202409031743-r")
 
-    runtimeOnly("com.oracle.database.jdbc:ojdbc11:23.26.2.0.0")
+    runtimeOnly("com.oracle.database.jdbc:ojdbc11:23.26.3.0.0")
 
     testImplementation("org.mockito:mockito-core:5.23.0")
 }
