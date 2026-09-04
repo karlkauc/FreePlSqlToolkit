@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation("org.eclipse.jgit:org.eclipse.jgit:7.0.0.202409031743-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:7.7.1.202607240634-r")
     implementation("com.oracle.database.jdbc:ojdbc11:23.26.2.0.0")
     implementation("org.yaml:snakeyaml:2.6")
     implementation("info.picocli:picocli:4.7.7")
